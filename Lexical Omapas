@@ -1,0 +1,31 @@
+setwd('C:/Users/Owner/OneDrive/Documents/Wren')
+##
+## Matrix is as input "a"
+## Null as value "b"
+## Every reference is changed into "mean" to "solve"
+makeCacheMatrix <- function(a = matrix(sample(1:100,9),3,3)) {
+  b <- NULL
+  set <- function(y) {
+    a <<- y
+    b <<- NULL
+  }
+  get <- function() a
+  setsolve <- function(solve) b <<- solve
+  getsolve <- function() b
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
+}
+##
+## Same here, changed "mean" to "solve" and "m" to "b"
+cacheSolve <- function(a, ...) {
+  b <- a$getsolve()
+  if(!is.null(b)) {
+    message("getting inversed matrix")
+    return(b)
+  }
+  data <- a$get()
+  b <- solve(data, ...)
+  a$setsolve(b)
+  b
+}
